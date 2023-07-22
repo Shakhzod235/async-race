@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "lib": [
+      "ES2021",
+      "DOM"
+    ],
+    "module": "ES2022",
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "paths": {
+      "modules": ["./src"]
+    },
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
