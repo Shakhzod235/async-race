@@ -119,14 +119,106 @@ body {
   font-weight: 900;
   text-align: center;
 }
+.car-item {
+  margin: 10px 0px 20px 0px;
+}
+
 .garage {
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   min-height: 50vh;
 }
-.car-item {
-  margin: 10px 0px 20px 0px;
+.garage-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 400px;
+  padding: 20px;
+  border-radius: 16px;
+}
+.num-of-cars,
+.page {
+  margin-left: 10px;
+}
+.num-of-cars {
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 30px;
+}
+.btn {
+  border-radius: 16px;
+  transition: all .3s;
+}
+.btn:disabled {
+  color: #fff;
+  border: 2px solid #fff;
+  background-color: rgb(128, 128, 128);
+}
+.btn:disabled:hover {
+  border: 2px solid #fff;
+  background-color: rgb(99, 99, 99);
+}
+.control-panel {
+  margin-top: 15px;
+}
+.race-btn {
+  color: rgb(0, 151, 0);
+  border: 2px solid rgb(0, 151, 0);
+}
+.race-btn:hover {
+  color: #fff;
+  border: 2px solid rgb(0, 120, 0);
+  background-color: rgb(0, 120, 0);
+}
+.reset-btn {
+  color: rgb(190, 0, 0);
+  border: 2px solid rgb(190, 0, 0);
+}
+.reset-btn:hover {
+  color: #fff;
+  border: 2px solid rgb(144, 0, 0);
+  background-color: rgb(144, 0, 0);
+}
+.generate-btn {
+  color: rgb(255, 255, 0);
+  border: 2px solid rgb(255, 255, 0);
+}
+.generate-btn:hover {
+  color: #000;
+  border: 2px solid rgb(255, 255, 0);
+  background-color: rgb(255, 255, 0);
+}
+
+.modal-message {
+  display: none;
+  justify-self: center;
+  align-items: center;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.711);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 999;
+  min-height: 100%;
+  min-width: 100%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  overflow: hidden;
+}
+.modal-message-container {
+  margin: 0 auto;
+  color: rgb(255, 255, 0);
+}
+.winner-reset {
+  border-radius: 16px;
+  border: 2px dashed rgb(255, 255, 0);
+  color: rgb(255, 255, 0);
+}
+.winner-reset:hover {
+  border-color: rgb(203, 203, 0);
+  color: rgb(203, 203, 0);
 }
 
 .winner-container {

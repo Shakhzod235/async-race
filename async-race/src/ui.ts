@@ -44,15 +44,15 @@ const renderCar = ({id, name, color}: carType) => `
     </div>
 `;
 
-const renderGarage = async () => {
+export const renderGarage = async () => {
   page = Number(localStorage.getItem('page'));
   const cars: carType[] = (await getCars(page)).items;
   const count: number | null = (await getCars(page)).count;
   const pageCount: number = Math.ceil((count || 1) / MIN_ITEMS_PER_PAGE);
   
   return `
-    ${cars.length ? `<h2>Garage ${count}</h2>
-    <h3>Page: ${page}</h3>
+    ${cars.length ? `<h2 class="num-of-cars">Garage ${count}</h2>
+    <h3 class="page">Page: ${page}</h3>
     <div class="pagination">
         <button class="pagination-btn prev-btn" ${(page === 1 || count === 0) ? "disabled" : ""} id="prev">prev</button>
         <button class="pagination-btn next-btn" ${pageCount === page ? "disabled" : ""} id="next">next</button>
@@ -65,7 +65,7 @@ const renderGarage = async () => {
   `
 };
 
-const renderWinner = async () => {
+export const renderWinner = async () => {
   tablePage = Number(localStorage.getItem('tablePage'));
   const sort = localStorage.getItem('sort') || '';
   const order = localStorage.getItem('order') || 'ASC';
