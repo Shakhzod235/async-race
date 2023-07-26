@@ -65,6 +65,56 @@ const renderGarage = async () => {
   `
 };
 
+const renderWinner = async () => {
+  tablePage = Number(localStorage.getItem('tablePage'));
+  const sort = localStorage.getItem('sort') || '';
+  const order = localStorage.getItem('order') || 'ASC';
+  const winnersList: winnerType[] = await (await getWinners(tablePage, sort, order).then(res => res)).items;
+  const cars: carType[] = await Promise.all(winnersList.map(({id}) => getCar(id)));
+  const count: number = (await getWinners(tablePage)).count;
+  const pageCount: number = Math.ceil((count || 1) / 10);
+
+  return (`
+      <div class="winner-container">
+          <h2 class="winner-title">Winners Table - ${count}</h2>
+          <p>Page: #${tablePage}</p>
+          <div class="table-buttons">
+              <button class="table-buttons__button prev-table" ${(tablePage === 1 || count === 0) ? "disabled" : ""}>Prev</button>
+              <button class="table-buttons__button next-table" ${pageCount === page ? "disabled" : ""}>Next</button>
+          </div>
+
+          ${winnersList.length ? `<table class="winner-table">
+          <thead>
+              <tr>
+                  <th class="winner-table__th id-sort">№</th>
+                  <th class="winner-table__th">Car</th>
+                  <th class="winner-table__th">Name</th>
+                  <th class="winner-table__th winner-sort">Wins</th>
+                  <th class="winner-table__th time-sort">Best Time</th>
+              </tr>
+          </thead>
+          <tbody>
+          ${
+              cars.map((car) => {
+                  const findIndex: number = winnersList.findIndex(winner => winner.id === car.id);
+
+                  return(`
+                      <tr>
+                          <td class="winner-table__td">${car.id}</td>
+                          <td class="winner-table__td">${carImage(car.color)}</td>
+                          <td class="winner-table__td">${car.name}</td>
+                          <td class="winner-table__td">${winnersList[findIndex].wins}</td>
+                          <td class="winner-table__td">${winnersList[findIndex].time/1000}s</td>
+                      </tr>
+                  `);
+              }).join('')
+          }
+          </tbody>
+      </table>` : 'No winners. You can return to race page and define winner!'}
+      </div>
+  `);
+}
+
 export const renderFooter = () => `
     <footer class="footer">
       <div class="footer__container">

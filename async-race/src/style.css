@@ -129,6 +129,60 @@ body {
   margin: 10px 0px 20px 0px;
 }
 
+.winner-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 500px;
+  margin: 0 auto;
+  padding-top: 60px;
+  text-align: center;
+  color: #fff;
+}
+.winner-title {
+  margin-bottom: 10px;
+  font-size: 36px;
+  font-weight: 900;
+}
+
+.winner-table {
+  width: 90%;
+}
+.winner-table,
+.winner-table__th,
+.winner-table__td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #fff;
+  border-collapse: collapse;
+}
+.winner-sort, .id-sort, .time-sort {
+  cursor: pointer;
+  transition: .4s;
+}
+.winner-sort:hover, .id-sort:hover, .time-sort:hover {
+  background-color: #fff;
+  color: #000;
+}
+.table-buttons {
+  display: flex;
+  align-items: center;
+}
+.table-buttons__button {
+  border-radius: 16px;
+  border-style: dashed;
+  margin: 15px 20px;
+  transition: .4s;
+}
+.table-buttons__button:hover {
+  background-color: white;
+  color: black;
+}
+.table-buttons__button:disabled {
+  color: gray;
+  border-color: gray;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
