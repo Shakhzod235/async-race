@@ -18,3 +18,13 @@ export const renderHeader = () => `
         </div>
     </header>
 `;
+export const renderFooter = () => `
+    <footer class="footer">
+      <div class="footer__container">
+          <a href="//github.com/Shakhzod235">
+              <img class="footer__github-logo" alt="github-logo" src="./images/github-mark.png"/>
+          </a>
+          <p>26.07.2023</p>
+      </div>
+    </footer>
+`;
