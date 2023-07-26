@@ -35,6 +35,73 @@ body {
   color: black;
 }
 
+.flag {
+  position: absolute;
+  right: 5.7%;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  z-index: 300;
+}
+.flag-img {
+  filter: invert(1);
+
+  width: 100%;
+}
+.car-buttons {
+  display: flex;
+  align-items: center;
+}
+.car-title {
+  color: #fff;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.car-btn {
+  border-radius: 16px;
+  border-style: dotted;
+  margin-right: 10px;
+  transition: all .3s;
+}
+.car-select-btn {
+  color: rgba(0, 152, 0, 0.577);
+  border-color: rgba(0, 152, 0, 0.577);
+}
+.car-select-btn:hover {
+  color: rgb(0, 152, 0);
+  border-color: rgb(0, 152, 0);
+}
+.car-select-btn:focus {
+  color: rgb(0, 152, 0);
+  border-color: rgb(0, 152, 0);
+}
+.car-remove-btn {
+  color: rgba(255, 0, 0, 0.607);
+  border-color: rgba(255, 0, 0, 0.607);
+}
+.car-remove-btn:hover {
+  color: rgb(255, 0, 0);
+  border-color: rgb(255, 0, 0);
+}
+.car-wrapper {
+  display: flex;
+  position: relative;
+  border-bottom: 2px dashed #fff;
+}
+.car-control {
+  padding: 10px 0px;
+  width: 6%;
+}
+.car-full-road {
+  width: 87%;
+  position: relative;
+}
+.car {
+  position: absolute;
+  left: 0%;
+  bottom: -33px;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

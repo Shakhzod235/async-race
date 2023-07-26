@@ -18,6 +18,32 @@ export const renderHeader = () => `
         </div>
     </header>
 `;
+
+const renderCar = ({id, name, color}: carType) => `
+    <div class="car-buttons">
+        <button class="car-btn car-select-btn" id="select-car-${id}">Select</button>
+        <button class="car-btn car-remove-btn" id="remove-car-${id}">Remove</button>
+        <p class="car-title">${name}</p>
+    </div>
+    <div class="car-road">
+        <div class="car-wrapper">
+            <div class="car-control">
+                <button class="car-control-btn car-start-btn" id="car-start-${id}">A</button>
+                <button class="car-control-btn car-stop-btn" disabled id="car-stop-${id}">B</button>
+            </div>
+            <div class="car-full-road">
+                <div class="car" id="car-${id}">
+                    ${carImage(color)}
+                </div>
+            </div>
+            <div class="flag">
+                <img src="./images/flag.png" class="flag-img" />
+            </div>
+            <div style="width: 100px"></div>
+        </div>
+    </div>
+`;
+
 export const renderFooter = () => `
     <footer class="footer">
       <div class="footer__container">
