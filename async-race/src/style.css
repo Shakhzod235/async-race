@@ -84,8 +84,8 @@ body {
   border-color: rgb(255, 0, 0);
 }
 .car-wrapper {
-  display: flex;
   position: relative;
+  display: flex;
   border-bottom: 2px dashed #fff;
 }
 .car-control {
@@ -100,6 +100,33 @@ body {
   position: absolute;
   left: 0%;
   bottom: -33px;
+}
+
+.pagination {
+  padding: 10px;
+}
+.pagination-btn {
+  border: none;
+  margin-right: 10px;
+  border-bottom: 3px solid white;
+}
+.pagination-btn:disabled {
+  color: gray;
+  border-color: gray;
+}
+.empty-garage {
+  font-size: 24px;
+  font-weight: 900;
+  text-align: center;
+}
+.garage {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  min-height: 50vh;
+}
+.car-item {
+  margin: 10px 0px 20px 0px;
 }
 
 .footer {
