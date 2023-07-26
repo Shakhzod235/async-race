@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Overpass', 'Roboto', 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: #fff;
+  text-transform: uppercase;
+  background-color: #000;
+}
+.header {
+  position: relative;
+  height: 60px;
+  padding: 10px;
+  color: #fff;
+  z-index: 10000;
+}
+.header__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header__btn {
+  margin-right: 15px;
+  transition: 0.3s;
+  border-radius: 15px;
+}
+.header__btn:hover {
+  background-color: #fff;
+  color: black;
+}
