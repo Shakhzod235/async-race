@@ -5,7 +5,8 @@
     "airbnb",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "noImplicitAny"
   ],
   "rules": {
     "import/extensions": [
