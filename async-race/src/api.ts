@@ -1,4 +1,4 @@
-import { carType, newCarType, winnerType } from './main';
+import { carType, newCarType, winnerType } from './types';
 
 const baseURL = 'http://127.0.0.1:3000';
 
