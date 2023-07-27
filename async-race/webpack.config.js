@@ -51,30 +51,31 @@ const getEntryPoints = (pages) => pages.reduce((entry, {name, dir, script, style
   style ? { [`${name}-styles`]: makePath(path.join(dir, style)) } : {},
 ), {});
 
-
 const getHtmlPlugins = (pages) => {
   const entryPoints = getEntryPoints(pages);
   return Object.keys(entryPoints).map((name) => {
     const { html, script, style } = pages.find((page) => page.name === name);
     return new HtmlWebpackPlugin({
       template: html,
-      filename: html,
-      chunks: [name, script ? name : null, style ? `${name}-styles` : null].filter(c => !!c),
+      filename: html
     });
   });
 };
+
 module.exports = ({ development }) => {
+  const scripts = {
+    api: './api.ts',
+    carImage: './carImage.ts',
+    main: './main.ts',
+    types: './types.ts',
+    ui: './ui.ts',
+    utility: './utility.ts'
+  };
   const pages = getPages(srcPath, 1);
   return {
     mode: development ? 'development' : 'production',
     devtool: development ? 'inline-source-map' : false,
-    entry: [
-      './api.ts',
-      './car-image.ts',
-      './main.ts',
-      './types.ts',
-      './ui.ts'
-    ],
+    entry: scripts,
     context: srcPath,
     output: {
       filename: 'js/[name].[contenthash].js',
