@@ -51,32 +51,18 @@ const getEntryPoints = (pages) => pages.reduce((entry, {name, dir, script, style
   style ? { [`${name}-styles`]: makePath(path.join(dir, style)) } : {},
 ), {});
 
-const getHtmlPlugins = (pages) => {
-  const entryPoints = getEntryPoints(pages);
-  return Object.keys(entryPoints).map((name) => {
-    const { html, script, style } = pages.find((page) => page.name === name);
-    return new HtmlWebpackPlugin({
-      template: html,
-      filename: html
-    });
-  });
-};
+const getHtmlPlugins = (pages) => pages.map(({html, name, script, style}) => new HtmlWebpackPlugin({
+  template: html,
+  filename: html,
+  chunks: [ script ? name : null, style ? `${name}-styles` : null ].filter(c => !!c),
+}));
 
 module.exports = ({ development }) => {
-  const scripts = {
-    api: './api.ts',
-    carImage: './carImage.ts',
-    main: './main.ts',
-    types: './types.ts',
-    ui: './ui.ts',
-    utility: './utility.ts',
-    storage: './storage.ts'
-  };
   const pages = getPages(srcPath, 1);
   return {
     mode: development ? 'development' : 'production',
     devtool: development ? 'inline-source-map' : false,
-    entry: scripts,
+    entry: getEntryPoints(pages),
     context: srcPath,
     output: {
       filename: 'js/[name].[contenthash].js',
@@ -136,7 +122,7 @@ module.exports = ({ development }) => {
         ],
       }),
       new CleanWebpackPlugin(),
-      new RemoveEmptyScriptsPlugin()
+      new RemoveEmptyScriptsPlugin(),
     ],
     resolve: {
       extensions: ['.js', '.ts'],
