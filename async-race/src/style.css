@@ -32,7 +32,7 @@ body {
 }
 .header__btn:hover {
   background-color: #fff;
-  color: black;
+  color: #000;
 }
 
 .flag {
@@ -75,11 +75,11 @@ body {
   color: rgb(0, 152, 0);
   border-color: rgb(0, 152, 0);
 }
-.car-remove-btn {
+.car-delete-btn {
   color: rgba(255, 0, 0, 0.607);
   border-color: rgba(255, 0, 0, 0.607);
 }
-.car-remove-btn:hover {
+.car-delete-btn:hover {
   color: rgb(255, 0, 0);
   border-color: rgb(255, 0, 0);
 }
@@ -106,8 +106,8 @@ body {
 }
 .create-btn:hover, .update-btn:hover  {
   border-radius: 16px;
-  background-color: white;
-  color: black;
+  background-color: #fff;
+  color: #000;
 }
 .car-wrapper {
   position: relative;
@@ -134,11 +134,11 @@ body {
 .pagination-btn {
   border: none;
   margin-right: 10px;
-  border-bottom: 3px solid white;
+  border-bottom: 3px solid #fff;
 }
 .pagination-btn:disabled {
-  color: gray;
-  border-color: gray;
+  color: rgb(128, 128, 128);
+  border-color: rgb(128, 128, 128);
 }
 .empty-garage {
   font-size: 24px;
@@ -294,11 +294,11 @@ body {
 }
 .table-buttons__button:hover {
   background-color: white;
-  color: black;
+  color: #000;
 }
 .table-buttons__button:disabled {
-  color: gray;
-  border-color: gray;
+  color: rgb(128, 128, 128);
+  border-color: rgb(128, 128, 128);
 }
 
 .footer {

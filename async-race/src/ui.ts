@@ -23,7 +23,7 @@ export const renderHeader = () => `
 const renderCar = ({id, name, color}: carType) => `
     <div class="car-buttons">
         <button class="car-btn car-select-btn" id="select-car-${id}">Select</button>
-        <button class="car-btn car-remove-btn" id="remove-car-${id}">Remove</button>
+        <button class="car-btn car-delete-btn" id="delete-car-${id}">Remove</button>
         <p class="car-title">${name}</p>
     </div>
     <div class="car-road">
@@ -254,6 +254,36 @@ export const listen = () => {
             (document.querySelector('.winners-btn') as HTMLElement).classList.remove('active');
             (document.querySelector('.garage-btn') as HTMLElement).classList.add('active');
             (document.querySelector('body') as HTMLElement).style.overflow = '';
+        }
+        if((event.target as HTMLElement).classList.contains('create-btn')) {
+            event.preventDefault();
+            const createNameValue = (document.querySelector('#create-name') as HTMLInputElement).value;
+            const createColorValue = (document.querySelector('#create-color') as HTMLInputElement).value;
+            const newCar: newCarType = {name: createNameValue, color: createColorValue};
+            page = Number(localStorage.getItem('page'));
+            if(page === 0) {
+                localStorage.setItem('page', '1');
+            }
+            await createCar(newCar);
+            (document.querySelector('#create-name') as HTMLInputElement).value = '';
+            (document.querySelector('#create-color') as HTMLInputElement).value = '#ffffff';
+            await getCars();
+            await updateGarage();
+        }
+
+        if((event.target as HTMLElement).classList.contains('car-delete-btn')) {
+            event.preventDefault();
+            page = Number(localStorage.getItem('page'));
+            const cars = document.querySelectorAll('.car-item');
+            if(cars.length - 1 === 0) {
+                localStorage.setItem('page', `${page - 1}`);
+            }
+            const id: number = +(event.target as HTMLElement).id.split('delete-car-')[1];
+            await deleteWinner(id);
+            updateWinnerPage();
+            await deleteCar(id);
+            await getCars();
+            await updateGarage();
         }
     });
 }
