@@ -1,7 +1,7 @@
 import { renderCarImage } from "./carImage";
 import { carType, newCarType, winnerType } from "./types";
 import { createCar, createWinner, getCar, getCars, getWinner, getWinners, deleteCar, deleteWinner, startEngine, stopEngine, updateCar, updateWinner } from "./api";
-import { animateCar, returnCarToBase, startRace } from "./utility";
+import { animateCar, returnCarToBase, startRace, generateRandomCars } from "./utility";
 
 const MIN_ITEMS_PER_PAGE: number = 7;
 let selectedId: number | null = null;
@@ -314,6 +314,47 @@ export const listen = () => {
                 (document.querySelector('#update-name') as HTMLInputElement).value = '';
                 (document.querySelector('#update-color') as HTMLInputElement).value = '#ffffff';
             }
+        }
+        if((event.target as HTMLButtonElement).classList.contains('next-btn')) {
+            event.preventDefault();
+            const prevBtn = document.querySelector('#prev') as HTMLButtonElement;
+            const nextBtn = document.querySelector('#next') as HTMLButtonElement;
+            page = Number(localStorage.getItem('page'));
+            const count: number | null = (await getCars(page)).count || 0;
+            const cars: carType[] = (await getCars(page)).items;
+            localStorage.setItem('page', `${page + 1}`);
+
+            page = Number(localStorage.getItem('page'));
+            if(page > 0) {
+                prevBtn.disabled = false;
+            }
+            if(count <= page * MIN_ITEMS_PER_PAGE || cars.length < MIN_ITEMS_PER_PAGE) {
+                nextBtn.disabled = true;
+            }
+            await updateGarage();
+        }
+
+        if((event.target as HTMLButtonElement).classList.contains('prev-btn')) {
+            event.preventDefault();
+            const prevBtn = document.querySelector('#prev') as HTMLButtonElement;
+            const nextBtn = document.querySelector('#next') as HTMLButtonElement;
+            nextBtn.disabled = false;
+            page = Number(localStorage.getItem('page'));
+            const count: number | null = (await getCars(page)).count;
+            localStorage.setItem('page', `${page - 1}`);
+            page = Number(localStorage.getItem('page'));
+            if(page === 1) {
+                prevBtn.disabled = true;
+            }
+            await updateGarage();
+        }
+
+        if((event.target as HTMLButtonElement).classList.contains('generate-btn')) {
+            (event.target as HTMLButtonElement).disabled = true;
+            const cars = generateRandomCars();
+            await Promise.all(cars.map(async c => await createCar(c)));
+            await updateGarage();
+            (event.target as HTMLButtonElement).disabled = false;
         }
     });
 }
