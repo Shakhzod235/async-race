@@ -1,9 +1,8 @@
-import { listen, renderGarage } from './ui';
-import { renderUI } from './main';
+import { listen, render, renderGarage } from "./ui";
 
 async function renderGarageAwait() {
-  await renderUI();
-  await renderGarage();
-  listen();
+    await render();
+    await renderGarage();
+    listen();
 }
 renderGarageAwait();
