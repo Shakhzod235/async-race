@@ -143,3 +143,13 @@ const returnCar = async (id: number) => {
 
     returnCarToBase(id);
 }
+
+const updateGarage = async () => {
+    const garageWrapper = document.querySelector('.garage-cars') as HTMLElement;
+    garageWrapper.innerHTML = await renderGarage();
+}
+
+const updateWinnerPage = async () => {
+    const winnersWrapper = document.querySelector('.winners') as HTMLElement;
+    winnersWrapper.innerHTML = await renderWinner();
+}
