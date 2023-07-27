@@ -1,7 +1,7 @@
 import { renderCarImage } from "./carImage";
 import { carType, newCarType, winnerType } from "./types";
 import { createCar, createWinner, getCar, getCars, getWinner, getWinners, deleteCar, deleteWinner, startEngine, stopEngine, updateCar, updateWinner } from "./api";
-import { animateCar, returnCarToBase } from "./utility";
+import { animateCar, returnCarToBase, startRace } from "./utility";
 
 const MIN_ITEMS_PER_PAGE: number = 7;
 let selectedId: number | null = null;
@@ -170,6 +170,46 @@ export const listen = () => {
             const carStopBtn = document.querySelector(`#car-stop-${id}`) as HTMLButtonElement;
             carStopBtn.disabled = true;
             await returnCar(id);
+        }
+        if((event.target as HTMLElement).classList.contains('race-btn')) {
+            await startRace(startDriving);
+            let id: number = 0;
+            let ids: number[] = JSON.parse(localStorage.getItem('times')!);
+            const resetBtn = document.querySelector('.reset-btn') as HTMLButtonElement;
+
+            const timeInt = setInterval(async () => {
+                ids = JSON.parse(localStorage.getItem('times')!);
+                if(ids.length) {
+                    ids = JSON.parse(localStorage.getItem('times')!);
+                    const carTime = JSON.parse(localStorage.getItem('carTime')!);
+                    clearInterval(timeInt);
+                    id = ids[0];
+                    const winner = await getCar(id);
+                    const message = (document.querySelector('.msg') as HTMLElement);
+                    const messageText = (document.querySelector('.message') as HTMLElement);
+                    document.body.style.overflow = 'hidden';
+                    message.style.display = 'flex';
+                    messageText.innerHTML = `${winner.name} was first. Time: ${carTime/1000}s`;
+                    let {wins} = await getWinner(id);
+                    if(wins) {
+                        await updateWinner(id, {id: id, wins: wins + 1, time: carTime});
+                    } else {
+                        await createWinner({id: id, wins: 1, time: carTime});
+                    }
+                    updateWinnerPage();
+                    resetBtn.disabled = false;
+
+                }
+            }, 100);
+
+            const raceBtn = document.querySelector('.race-btn') as HTMLButtonElement;
+            const carStopBtns = Array.from(document.querySelectorAll('.car-stop-btn')) as HTMLButtonElement[];
+            carStopBtns.forEach((btn: HTMLButtonElement)  => {btn.disabled = false});
+            raceBtn.disabled = true;
+            (document.querySelector('#create-name') as HTMLInputElement).disabled = true;
+            (document.querySelector('#create-color') as HTMLInputElement).disabled = true;
+            (document.querySelector('.create-btn') as HTMLInputElement).disabled = true;
+            (document.querySelector('.generate-btn') as HTMLButtonElement).disabled = true;
         }
     });
 }
