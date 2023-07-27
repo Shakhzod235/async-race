@@ -285,5 +285,35 @@ export const listen = () => {
             await getCars();
             await updateGarage();
         }
+        if(!((event.target as HTMLElement).classList.contains('car-select-btn') || 
+                (event.target as HTMLElement).classList.contains('update-btn') ||
+                (event.target as HTMLElement).classList.contains('input-update') ||
+                (event.target as HTMLElement).classList.contains('color-update'))
+            ) {
+            selectedId = null;
+            (document.querySelector('.update-btn') as HTMLButtonElement).disabled = true;
+            (document.querySelector('#update-name') as HTMLInputElement).disabled = true;
+            (document.querySelector('#update-color') as HTMLInputElement).disabled = true;
+            (document.querySelector('#update-name') as HTMLInputElement).value = '';
+            (document.querySelector('#update-color') as HTMLInputElement).value = '#ffffff';
+        }
+
+        if((event.target as HTMLElement).classList.contains('update-btn')) {
+            event.preventDefault();
+            if(selectedId !== null) {
+                const updateNameValue = (document.querySelector('#update-name') as HTMLInputElement).value;
+                const updateColorValue = (document.querySelector('#update-color') as HTMLInputElement).value;
+                const newCar: newCarType = {name: updateNameValue, color: updateColorValue};
+                await updateCar(selectedId, newCar);
+                await getCars();
+                await updateGarage();
+                selectedId = null;
+                (document.querySelector('.update-btn') as HTMLButtonElement).disabled = true;
+                (document.querySelector('#update-name') as HTMLInputElement).disabled = true;
+                (document.querySelector('#update-color') as HTMLInputElement).disabled = true;
+                (document.querySelector('#update-name') as HTMLInputElement).value = '';
+                (document.querySelector('#update-color') as HTMLInputElement).value = '#ffffff';
+            }
+        }
     });
 }
