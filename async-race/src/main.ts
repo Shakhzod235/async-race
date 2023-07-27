@@ -1,6 +1,6 @@
 import { renderHeader, renderGarage, renderWinner, renderFooter } from './ui';
 
-const renderUI = async () => {
+export const renderUI = async () => {
   const html = `
     ${renderHeader()}
     <div class="garage">
