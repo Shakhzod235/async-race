@@ -153,3 +153,23 @@ const updateWinnerPage = async () => {
     const winnersWrapper = document.querySelector('.winners') as HTMLElement;
     winnersWrapper.innerHTML = await renderWinner();
 }
+
+export const listen = () => {
+    document.body.addEventListener('click', async (event: Event) => {
+        if((event.target as HTMLElement).classList.contains('car-start-btn')) {
+            const id: number = +(event.target as HTMLElement).id.split('car-start-')[1];
+            const carStopBtn = document.querySelector(`#car-stop-${id}`) as HTMLButtonElement;
+            carStopBtn.disabled = false;
+            await startDriving(id);
+        }
+
+        if((event.target as HTMLElement).classList.contains('car-stop-btn')) {
+            const id: number = +(event.target as HTMLElement).id.split('car-stop-')[1];
+            const carStartBtn = document.querySelector(`#car-start-${id}`) as HTMLButtonElement;
+            carStartBtn.disabled = false;
+            const carStopBtn = document.querySelector(`#car-stop-${id}`) as HTMLButtonElement;
+            carStopBtn.disabled = true;
+            await returnCar(id);
+        }
+    });
+}
