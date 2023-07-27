@@ -356,7 +356,7 @@ export const listen = () => {
             await updateGarage();
             (event.target as HTMLButtonElement).disabled = false;
         }
-        
+
         if((event.target as HTMLButtonElement).classList.contains('next-table')) {
             event.preventDefault();
             const prevBtn = document.querySelector('.prev-table') as HTMLButtonElement;
@@ -389,6 +389,33 @@ export const listen = () => {
                 prevBtn.disabled = true;
             }
             await updateWinnerPage();
+        }
+        
+        if((event.target as HTMLElement).classList.contains('winner-sort')) {
+            event.target?.addEventListener('click', () => {
+                localStorage.setItem('sort', 'wins');
+                let order = localStorage.getItem('order');
+                localStorage.setItem('order', order === 'ASC' ? 'DESC' : 'ASC');
+                updateWinnerPage();
+            });
+        }
+
+        if((event.target as HTMLElement).classList.contains('id-sort')) {
+            event.target?.addEventListener('click', () => {
+                localStorage.setItem('sort', 'id');
+                let order = localStorage.getItem('order');
+                localStorage.setItem('order', order === 'ASC' ? 'DESC' : 'ASC');
+                updateWinnerPage();
+            });
+        }
+
+        if((event.target as HTMLElement).classList.contains('time-sort')) {
+            event.target?.addEventListener('click', () => {
+                localStorage.setItem('sort', 'time');
+                let order = localStorage.getItem('order');
+                localStorage.setItem('order', order === 'ASC' ? 'DESC' : 'ASC');
+                updateWinnerPage();
+            });
         }
     });
 }
