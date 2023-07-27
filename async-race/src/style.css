@@ -13,6 +13,13 @@ body {
   text-transform: uppercase;
   background-color: #000;
 }
+@keyframes drive {
+  from {
+      left: 0%;
+  } to {
+      left: 100%;
+  }
+}
 .header {
   position: relative;
   height: 60px;
@@ -33,6 +40,59 @@ body {
 .header__btn:hover {
   background-color: #fff;
   color: #000;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: transparent;
+  color: white;
+  font-weight: 900;
+  text-transform: uppercase;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+input[type="color"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  width: 35px;
+  height: 35px;
+  border: none;
+  cursor: pointer;
+  transition: opacity .3s;
+}
+input[type="color"]::-webkit-color-swatch {
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+}
+input[type="color"]::-moz-color-swatch {
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+}
+input[type="color"]:disabled {
+  opacity: 0.7;
+}
+.form {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+input[type="text"] {
+  all: unset;
+  color: white;
+  padding: 5px 10px;
+  background-color: transparent;
+  border-bottom: 1px solid white;
+  transition: opacity .3s;
+}
+input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.663);
+}
+input[type="text"]:disabled {
+  opacity: 0.7;
 }
 
 .flag {
@@ -126,6 +186,12 @@ body {
   position: absolute;
   left: 0%;
   bottom: -33px;
+}
+.animation-car {
+  animation-name: drive;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+  animation-play-state: running;
 }
 
 .pagination {
@@ -236,6 +302,28 @@ body {
 .modal-message-container {
   margin: 0 auto;
   color: rgb(255, 255, 0);
+}
+.winners {
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: #000;
+  background: url('./images/bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #fff;
+  display: none;
+}
+.winners.active {
+  display: block;
+}
+.winners-btn.active {
+  background-color: #fff;
+  color: #000;
 }
 .winner-reset {
   border-radius: 16px;
