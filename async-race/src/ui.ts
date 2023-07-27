@@ -185,7 +185,7 @@ export const listen = () => {
                     clearInterval(timeInt);
                     id = ids[0];
                     const winner = await getCar(id);
-                    const message = (document.querySelector('.msg') as HTMLElement);
+                    const message = (document.querySelector('.modal-message') as HTMLElement);
                     const messageText = (document.querySelector('.message') as HTMLElement);
                     document.body.style.overflow = 'hidden';
                     message.style.display = 'flex';
@@ -210,6 +210,50 @@ export const listen = () => {
             (document.querySelector('#create-color') as HTMLInputElement).disabled = true;
             (document.querySelector('.create-btn') as HTMLInputElement).disabled = true;
             (document.querySelector('.generate-btn') as HTMLButtonElement).disabled = true;
+        }
+        if((event.target as HTMLElement).classList.contains('winner-reset')) {
+            document.body.style.overflow = '';
+            (document.querySelector('.modal-message') as HTMLElement).style.display = 'none';
+            localStorage.setItem('times', JSON.stringify([]));
+        }
+
+        if((event.target as HTMLElement).classList.contains('reset-btn')) {
+            page = Number(localStorage.getItem('page'));
+            const ids: number[] = (await getCars(page)).items.map(car => car.id);
+            (document.querySelector('#create-name') as HTMLInputElement).disabled = false;
+            (document.querySelector('#create-color') as HTMLInputElement).disabled = false;
+            (document.querySelector('.create-btn') as HTMLInputElement).disabled = false;
+            (document.querySelector('.generate-btn') as HTMLButtonElement).disabled = false;
+            (document.querySelector('.race-btn') as HTMLButtonElement).disabled = false;
+            
+
+            ids.forEach(async (id) => {
+                returnCarToBase(id);
+                const carStartBtn = document.querySelector(`#car-start-${id}`) as HTMLButtonElement;
+                carStartBtn.disabled = false;
+                const carStopBtn = document.querySelector(`#car-stop-${id}`) as HTMLButtonElement;
+                carStopBtn.disabled = true;
+                const raceBtn = document.querySelector('.race-btn') as HTMLButtonElement;
+                raceBtn.disabled = false;
+                const resetBtn = document.querySelector('.reset-btn') as HTMLButtonElement;
+                resetBtn.disabled = true;
+            })
+        }
+
+        if((event.target as HTMLElement).classList.contains('winners-btn')) {
+            const winners = document.querySelector('.winners');
+            winners?.classList.add('active');
+            (document.querySelector('.winners-btn') as HTMLElement).classList.add('active');
+            (document.querySelector('.garage-btn') as HTMLElement).classList.remove('active');
+            (document.querySelector('body') as HTMLElement).style.overflow = 'hidden';
+        }
+
+        if((event.target as HTMLElement).classList.contains('garage-btn')) {
+            const winners = document.querySelector('.winners');
+            winners?.classList.remove('active');
+            (document.querySelector('.winners-btn') as HTMLElement).classList.remove('active');
+            (document.querySelector('.garage-btn') as HTMLElement).classList.add('active');
+            (document.querySelector('body') as HTMLElement).style.overflow = '';
         }
     });
 }
