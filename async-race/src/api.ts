@@ -1,6 +1,5 @@
 import { carType, newCarType, winnerType } from './types';
-
-const baseURL = 'http://127.0.0.1:3000';
+const baseURL = 'http://localhost:3000';
 
 const garage = `${baseURL}/garage`;
 const engine = `${baseURL}/engine`;
@@ -32,8 +31,8 @@ export const createCar = async (car: newCarType) => {
    await fetch(`${garage}`, {method: 'POST', body: JSON.stringify(car), headers: {'Content-Type': 'application/json'}});
 }
 
-export const deleteCar = async (id: number) => {
-    await fetch(`${garage}/${id}`, {method: 'DELETE'});
+export const removeCar = async (id: number) => {
+    await fetch(`${garage}/${id}`, {method: 'remove'});
 }
 
 export const updateCar = async (id: number, car: newCarType) => {
@@ -52,8 +51,8 @@ export const updateWinner = async(id: number, winner: winnerType) => {
    await fetch(`${winners}/${id}`, {method: "PUT", body: JSON.stringify(winner), headers: {'Content-Type': 'application/json'}});
 }
 
-export const deleteWinner = async (id: number) => {
-    await fetch(`${winners}/${id}`, {method: 'DELETE'});
+export const removeWinner = async (id: number) => {
+    await fetch(`${winners}/${id}`, {method: 'remove'});
 }
 
 export const getWinners = async (page?: number, _sort?: string, _order?: string, _limit: number = 10,) => {

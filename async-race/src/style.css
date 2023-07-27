@@ -135,11 +135,11 @@ input[type="text"]:disabled {
   color: rgb(0, 152, 0);
   border-color: rgb(0, 152, 0);
 }
-.car-delete-btn {
+.car-remove-btn {
   color: rgba(255, 0, 0, 0.607);
   border-color: rgba(255, 0, 0, 0.607);
 }
-.car-delete-btn:hover {
+.car-remove-btn:hover {
   color: rgb(255, 0, 0);
   border-color: rgb(255, 0, 0);
 }
@@ -305,18 +305,14 @@ input[type="text"]:disabled {
 }
 .winners {
   position: fixed;
+  display: none;
   z-index: 999;
   left: 0;
   top: 0;
   width: 100%;
   min-height: 100%;
   background-color: #000;
-  background: url('./images/bg.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   color: #fff;
-  display: none;
 }
 .winners.active {
   display: block;

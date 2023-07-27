@@ -1,6 +1,6 @@
 import { renderCarImage } from "./carImage";
 import { carType, newCarType, winnerType } from "./types";
-import { createCar, createWinner, getCar, getCars, getWinner, getWinners, deleteCar, deleteWinner, startEngine, stopEngine, updateCar, updateWinner } from "./api";
+import { createCar, createWinner, getCar, getCars, getWinner, getWinners, removeCar, removeWinner, startEngine, stopEngine, updateCar, updateWinner } from "./api";
 import { animateCar, returnCarToBase, startRace, generateRandomCars } from "./utility";
 
 const MIN_ITEMS_PER_PAGE: number = 7;
@@ -23,7 +23,7 @@ export const renderHeader = () => `
 const renderCar = ({id, name, color}: carType) => `
     <div class="car-buttons">
         <button class="car-btn car-select-btn" id="select-car-${id}">Select</button>
-        <button class="car-btn car-delete-btn" id="delete-car-${id}">Remove</button>
+        <button class="car-btn car-remove-btn" id="remove-car-${id}">Remove</button>
         <p class="car-title">${name}</p>
     </div>
     <div class="car-road">
@@ -271,17 +271,17 @@ export const listen = () => {
             await updateGarage();
         }
 
-        if((event.target as HTMLElement).classList.contains('car-delete-btn')) {
+        if((event.target as HTMLElement).classList.contains('car-remove-btn')) {
             event.preventDefault();
             page = Number(localStorage.getItem('page'));
             const cars = document.querySelectorAll('.car-item');
             if(cars.length - 1 === 0) {
                 localStorage.setItem('page', `${page - 1}`);
             }
-            const id: number = +(event.target as HTMLElement).id.split('delete-car-')[1];
-            await deleteWinner(id);
+            const id: number = +(event.target as HTMLElement).id.split('remove-car-')[1];
+            await removeWinner(id);
             updateWinnerPage();
-            await deleteCar(id);
+            await removeCar(id);
             await getCars();
             await updateGarage();
         }
