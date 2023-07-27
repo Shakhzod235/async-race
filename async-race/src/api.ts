@@ -1,4 +1,5 @@
 import { carType, newCarType, winnerType } from './types';
+
 const baseURL = 'http://localhost:3000';
 
 const garage = `${baseURL}/garage`;
@@ -19,14 +20,12 @@ export const getCar = async (id: number) => {
   return res;
 };
 
-export const startEngine = async (id: number) =>
-  await fetch(`${engine}?id=${id}&status=started`, { method: 'PATCH' })
-    .then((res) => res.json())
-    .then((res) => res);
-export const stopEngine = async (id: number) =>
-  await fetch(`${engine}?id=${id}&status=stopped`, { method: 'PATCH' })
-    .then((res) => res.json())
-    .then((res) => res);
+export const startEngine = async (id: number) => await fetch(`${engine}?id=${id}&status=started`, { method: 'PATCH' })
+  .then((res) => res.json())
+  .then((res) => res);
+export const stopEngine = async (id: number) => await fetch(`${engine}?id=${id}&status=stopped`, { method: 'PATCH' })
+  .then((res) => res.json())
+  .then((res) => res);
 
 export const drive = async (id: number) => {
   const res = await fetch(`${engine}?id=${id}&status=drive`, {
@@ -65,9 +64,7 @@ export const createWinner = async (winner: winnerType) => {
   });
 };
 
-export const getWinner = async (id: number) => {
-  return await fetch(`${winners}/${id}`).then((res) => res.json());
-};
+export const getWinner = async (id: number) => await fetch(`${winners}/${id}`).then((res) => res.json());
 
 export const updateWinner = async (id: number, winner: winnerType) => {
   await fetch(`${winners}/${id}`, {
@@ -85,10 +82,10 @@ export const getWinners = async (
   page?: number,
   _sort?: string,
   _order?: string,
-  _limit: number = 10
+  _limit: number = 10,
 ) => {
   const res = await fetch(
-    `${winners}?_page=${page}&_limit=${_limit}&_order=${_order}&_sort=${_sort}`
+    `${winners}?_page=${page}&_limit=${_limit}&_order=${_order}&_sort=${_sort}`,
   );
   const obj = {
     items: await res.json(),

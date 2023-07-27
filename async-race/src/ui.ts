@@ -66,33 +66,33 @@ const renderCar = ({ id, name, color }: carType) => `
 export const renderGarage = async () => {
   page = Number(localStorage.getItem('page'));
   const cars: carType[] = (await getCars(page)).items;
-  const count: number | null = (await getCars(page)).count;
+  const { count } = await getCars(page);
   const pageCount: number = Math.ceil((count || 1) / MIN_ITEMS_PER_PAGE);
 
   return `
     ${
-      cars.length
-        ? `<h2 class="num-of-cars">Garage ${count}</h2>
+  cars.length
+    ? `<h2 class="num-of-cars">Garage ${count}</h2>
     <h3 class="page">Page: ${page}</h3>
     <div class="pagination">
         <button class="pagination-btn prev-btn" ${
-          page === 1 || count === 0 ? 'disabled' : ''
-        } id="prev">prev</button>
+  page === 1 || count === 0 ? 'disabled' : ''
+} id="prev">prev</button>
         <button class="pagination-btn next-btn" ${
-          pageCount === page ? 'disabled' : ''
-        } id="next">next</button>
+  pageCount === page ? 'disabled' : ''
+} id="next">next</button>
     </div>
     <ul class="garage">
         ${cars
-          .map(
-            (car: carType) => `
+    .map(
+      (car: carType) => `
             <li class="car-item">${renderCar(car)}</li>
-        `
-          )
-          .join('')}
+        `,
+    )
+    .join('')}
     </ul>`
-        : '<p class ="empty-garage">No cars in the garage.</p>'
-    }
+    : '<p class ="empty-garage">No cars in the garage.</p>'
+}
   `;
 };
 
@@ -104,9 +104,9 @@ export const renderWinner = async () => {
     await getWinners(tablePage, sort, order).then((res) => res)
   ).items;
   const cars: carType[] = await Promise.all(
-    winnersList.map(({ id }) => getCar(id))
+    winnersList.map(({ id }) => getCar(id)),
   );
-  const count: number = (await getWinners(tablePage)).count;
+  const { count } = await getWinners(tablePage);
   const pageCount: number = Math.ceil((count || 1) / 10);
 
   return `
@@ -115,16 +115,16 @@ export const renderWinner = async () => {
           <p>Page: #${tablePage}</p>
           <div class="table-buttons">
               <button class="table-buttons__button prev-table" ${
-                tablePage === 1 || count === 0 ? 'disabled' : ''
-              }>Prev</button>
+  tablePage === 1 || count === 0 ? 'disabled' : ''
+}>Prev</button>
               <button class="table-buttons__button next-table" ${
-                pageCount === page ? 'disabled' : ''
-              }>Next</button>
+  pageCount === page ? 'disabled' : ''
+}>Next</button>
           </div>
 
           ${
-            winnersList.length
-              ? `<table class="winner-table">
+  winnersList.length
+    ? `<table class="winner-table">
           <thead>
               <tr>
                   <th class="winner-table__th id-sort">№</th>
@@ -136,32 +136,32 @@ export const renderWinner = async () => {
           </thead>
           <tbody>
           ${cars
-            .map((car) => {
-              const findIndex: number = winnersList.findIndex(
-                (winner) => winner.id === car.id
-              );
+    .map((car) => {
+      const findIndex: number = winnersList.findIndex(
+        (winner) => winner.id === car.id,
+      );
 
-              return `
+      return `
                       <tr>
                           <td class="winner-table__td">${car.id}</td>
                           <td class="winner-table__td">${renderCarImage(
-                            car.color
-                          )}</td>
+    car.color,
+  )}</td>
                           <td class="winner-table__td">${car.name}</td>
                           <td class="winner-table__td">${
-                            winnersList[findIndex].wins
-                          }</td>
+  winnersList[findIndex].wins
+}</td>
                           <td class="winner-table__td">${
-                            winnersList[findIndex].time / 1000
-                          }s</td>
+  winnersList[findIndex].time / 1000
+}s</td>
                       </tr>
                   `;
-            })
-            .join('')}
+    })
+    .join('')}
           </tbody>
       </table>`
-              : 'No winners. You can return to race page and define winner!'
-          }
+    : 'No winners. You can return to race page and define winner!'
+}
       </div>
   `;
 };
@@ -179,7 +179,7 @@ export const renderFooter = () => `
 
 const startDriving = async (id: number) => {
   const startBtn = document.querySelector(
-    `#car-start-${id}`
+    `#car-start-${id}`,
   ) as HTMLButtonElement;
   startBtn.disabled = true;
 
@@ -191,7 +191,7 @@ const startDriving = async (id: number) => {
 
 const returnCar = async (id: number) => {
   const stopBtn = document.querySelector(
-    `#car-stop-${id}`
+    `#car-stop-${id}`,
   ) as HTMLButtonElement;
   stopBtn.disabled = true;
 
@@ -212,10 +212,10 @@ export const listen = () => {
   document.body.addEventListener('click', async (event: Event) => {
     if ((event.target as HTMLElement).classList.contains('car-start-btn')) {
       const id: number = +(event.target as HTMLElement).id.split(
-        'car-start-'
+        'car-start-',
       )[1];
       const carStopBtn = document.querySelector(
-        `#car-stop-${id}`
+        `#car-stop-${id}`,
       ) as HTMLButtonElement;
       carStopBtn.disabled = false;
       await startDriving(id);
@@ -223,14 +223,14 @@ export const listen = () => {
 
     if ((event.target as HTMLElement).classList.contains('car-stop-btn')) {
       const id: number = +(event.target as HTMLElement).id.split(
-        'car-stop-'
+        'car-stop-',
       )[1];
       const carStartBtn = document.querySelector(
-        `#car-start-${id}`
+        `#car-start-${id}`,
       ) as HTMLButtonElement;
       carStartBtn.disabled = false;
       const carStopBtn = document.querySelector(
-        `#car-stop-${id}`
+        `#car-stop-${id}`,
       ) as HTMLButtonElement;
       carStopBtn.disabled = true;
       await returnCar(id);
@@ -240,7 +240,7 @@ export const listen = () => {
       let id: number = 0;
       let ids: number[] = JSON.parse(localStorage.getItem('times')!);
       const resetBtn = document.querySelector(
-        '.reset-btn'
+        '.reset-btn',
       ) as HTMLButtonElement;
 
       const timeInt = setInterval(async () => {
@@ -252,7 +252,7 @@ export const listen = () => {
           id = ids[0];
           const winner = await getCar(id);
           const message = document.querySelector(
-            '.modal-message'
+            '.modal-message',
           ) as HTMLElement;
           const messageText = document.querySelector('.message') as HTMLElement;
           document.body.style.overflow = 'hidden';
@@ -260,11 +260,11 @@ export const listen = () => {
           messageText.innerHTML = `${winner.name} was first. Time: ${
             carTime / 1000
           }s`;
-          let { wins } = await getWinner(id);
+          const { wins } = await getWinner(id);
           if (wins) {
-            await updateWinner(id, { id: id, wins: wins + 1, time: carTime });
+            await updateWinner(id, { id, wins: wins + 1, time: carTime });
           } else {
-            await createWinner({ id: id, wins: 1, time: carTime });
+            await createWinner({ id, wins: 1, time: carTime });
           }
           updateWinnerPage();
           resetBtn.disabled = false;
@@ -273,58 +273,48 @@ export const listen = () => {
 
       const raceBtn = document.querySelector('.race-btn') as HTMLButtonElement;
       const carStopBtns = Array.from(
-        document.querySelectorAll('.car-stop-btn')
+        document.querySelectorAll('.car-stop-btn'),
       ) as HTMLButtonElement[];
       carStopBtns.forEach((btn: HTMLButtonElement) => {
         btn.disabled = false;
       });
       raceBtn.disabled = true;
-      (document.querySelector('#create-name') as HTMLInputElement).disabled =
-        true;
-      (document.querySelector('#create-color') as HTMLInputElement).disabled =
-        true;
-      (document.querySelector('.create-btn') as HTMLInputElement).disabled =
-        true;
-      (document.querySelector('.generate-btn') as HTMLButtonElement).disabled =
-        true;
+      (document.querySelector('#create-name') as HTMLInputElement).disabled = true;
+      (document.querySelector('#create-color') as HTMLInputElement).disabled = true;
+      (document.querySelector('.create-btn') as HTMLInputElement).disabled = true;
+      (document.querySelector('.generate-btn') as HTMLButtonElement).disabled = true;
     }
     if ((event.target as HTMLElement).classList.contains('winner-reset')) {
       document.body.style.overflow = '';
-      (document.querySelector('.modal-message') as HTMLElement).style.display =
-        'none';
+      (document.querySelector('.modal-message') as HTMLElement).style.display = 'none';
       localStorage.setItem('times', JSON.stringify([]));
     }
 
     if ((event.target as HTMLElement).classList.contains('reset-btn')) {
       page = Number(localStorage.getItem('page'));
       const ids: number[] = (await getCars(page)).items.map((car) => car.id);
-      (document.querySelector('#create-name') as HTMLInputElement).disabled =
-        false;
-      (document.querySelector('#create-color') as HTMLInputElement).disabled =
-        false;
-      (document.querySelector('.create-btn') as HTMLInputElement).disabled =
-        false;
-      (document.querySelector('.generate-btn') as HTMLButtonElement).disabled =
-        false;
-      (document.querySelector('.race-btn') as HTMLButtonElement).disabled =
-        false;
+      (document.querySelector('#create-name') as HTMLInputElement).disabled = false;
+      (document.querySelector('#create-color') as HTMLInputElement).disabled = false;
+      (document.querySelector('.create-btn') as HTMLInputElement).disabled = false;
+      (document.querySelector('.generate-btn') as HTMLButtonElement).disabled = false;
+      (document.querySelector('.race-btn') as HTMLButtonElement).disabled = false;
 
       ids.forEach(async (id) => {
         returnCarToBase(id);
         const carStartBtn = document.querySelector(
-          `#car-start-${id}`
+          `#car-start-${id}`,
         ) as HTMLButtonElement;
         carStartBtn.disabled = false;
         const carStopBtn = document.querySelector(
-          `#car-stop-${id}`
+          `#car-stop-${id}`,
         ) as HTMLButtonElement;
         carStopBtn.disabled = true;
         const raceBtn = document.querySelector(
-          '.race-btn'
+          '.race-btn',
         ) as HTMLButtonElement;
         raceBtn.disabled = false;
         const resetBtn = document.querySelector(
-          '.reset-btn'
+          '.reset-btn',
         ) as HTMLButtonElement;
         resetBtn.disabled = true;
       });
@@ -334,10 +324,10 @@ export const listen = () => {
       const winners = document.querySelector('.winners');
       winners?.classList.add('active');
       (document.querySelector('.winners-btn') as HTMLElement).classList.add(
-        'active'
+        'active',
       );
       (document.querySelector('.garage-btn') as HTMLElement).classList.remove(
-        'active'
+        'active',
       );
       (document.querySelector('body') as HTMLElement).style.overflow = 'hidden';
     }
@@ -346,10 +336,10 @@ export const listen = () => {
       const winners = document.querySelector('.winners');
       winners?.classList.remove('active');
       (document.querySelector('.winners-btn') as HTMLElement).classList.remove(
-        'active'
+        'active',
       );
       (document.querySelector('.garage-btn') as HTMLElement).classList.add(
-        'active'
+        'active',
       );
       (document.querySelector('body') as HTMLElement).style.overflow = '';
     }
@@ -371,8 +361,7 @@ export const listen = () => {
       }
       await createCar(newCar);
       (document.querySelector('#create-name') as HTMLInputElement).value = '';
-      (document.querySelector('#create-color') as HTMLInputElement).value =
-        '#ffffff';
+      (document.querySelector('#create-color') as HTMLInputElement).value = '#ffffff';
       await getCars();
       await updateGarage();
     }
@@ -385,7 +374,7 @@ export const listen = () => {
         localStorage.setItem('page', `${page - 1}`);
       }
       const id: number = +(event.target as HTMLElement).id.split(
-        'remove-car-'
+        'remove-car-',
       )[1];
       await removeWinner(id);
       updateWinnerPage();
@@ -395,22 +384,18 @@ export const listen = () => {
     }
     if (
       !(
-        (event.target as HTMLElement).classList.contains('car-select-btn') ||
-        (event.target as HTMLElement).classList.contains('update-btn') ||
-        (event.target as HTMLElement).classList.contains('input-update') ||
-        (event.target as HTMLElement).classList.contains('color-update')
+        (event.target as HTMLElement).classList.contains('car-select-btn')
+        || (event.target as HTMLElement).classList.contains('update-btn')
+        || (event.target as HTMLElement).classList.contains('input-update')
+        || (event.target as HTMLElement).classList.contains('color-update')
       )
     ) {
       selectedId = null;
-      (document.querySelector('.update-btn') as HTMLButtonElement).disabled =
-        true;
-      (document.querySelector('#update-name') as HTMLInputElement).disabled =
-        true;
-      (document.querySelector('#update-color') as HTMLInputElement).disabled =
-        true;
+      (document.querySelector('.update-btn') as HTMLButtonElement).disabled = true;
+      (document.querySelector('#update-name') as HTMLInputElement).disabled = true;
+      (document.querySelector('#update-color') as HTMLInputElement).disabled = true;
       (document.querySelector('#update-name') as HTMLInputElement).value = '';
-      (document.querySelector('#update-color') as HTMLInputElement).value =
-        '#ffffff';
+      (document.querySelector('#update-color') as HTMLInputElement).value = '#ffffff';
     }
 
     if ((event.target as HTMLElement).classList.contains('update-btn')) {
@@ -430,15 +415,11 @@ export const listen = () => {
         await getCars();
         await updateGarage();
         selectedId = null;
-        (document.querySelector('.update-btn') as HTMLButtonElement).disabled =
-          true;
-        (document.querySelector('#update-name') as HTMLInputElement).disabled =
-          true;
-        (document.querySelector('#update-color') as HTMLInputElement).disabled =
-          true;
+        (document.querySelector('.update-btn') as HTMLButtonElement).disabled = true;
+        (document.querySelector('#update-name') as HTMLInputElement).disabled = true;
+        (document.querySelector('#update-color') as HTMLInputElement).disabled = true;
         (document.querySelector('#update-name') as HTMLInputElement).value = '';
-        (document.querySelector('#update-color') as HTMLInputElement).value =
-          '#ffffff';
+        (document.querySelector('#update-color') as HTMLInputElement).value = '#ffffff';
       }
     }
     if ((event.target as HTMLButtonElement).classList.contains('next-btn')) {
@@ -455,8 +436,8 @@ export const listen = () => {
         prevBtn.disabled = false;
       }
       if (
-        count <= page * MIN_ITEMS_PER_PAGE ||
-        cars.length < MIN_ITEMS_PER_PAGE
+        count <= page * MIN_ITEMS_PER_PAGE
+        || cars.length < MIN_ITEMS_PER_PAGE
       ) {
         nextBtn.disabled = true;
       }
@@ -469,7 +450,7 @@ export const listen = () => {
       const nextBtn = document.querySelector('#next') as HTMLButtonElement;
       nextBtn.disabled = false;
       page = Number(localStorage.getItem('page'));
-      const count: number | null = (await getCars(page)).count;
+      const { count } = await getCars(page);
       localStorage.setItem('page', `${page - 1}`);
       page = Number(localStorage.getItem('page'));
       if (page === 1) {
@@ -491,10 +472,10 @@ export const listen = () => {
     if ((event.target as HTMLButtonElement).classList.contains('next-table')) {
       event.preventDefault();
       const prevBtn = document.querySelector(
-        '.prev-table'
+        '.prev-table',
       ) as HTMLButtonElement;
       const nextBtn = document.querySelector(
-        '.next-table'
+        '.next-table',
       ) as HTMLButtonElement;
       tablePage = Number(localStorage.getItem('tablePage'));
       const count: number | null = (await getWinners(tablePage)).count || 0;
@@ -514,14 +495,14 @@ export const listen = () => {
     if ((event.target as HTMLButtonElement).classList.contains('prev-table')) {
       event.preventDefault();
       const prevBtn = document.querySelector(
-        '.prev-table'
+        '.prev-table',
       ) as HTMLButtonElement;
       const nextBtn = document.querySelector(
-        '.next-table'
+        '.next-table',
       ) as HTMLButtonElement;
       nextBtn.disabled = false;
       tablePage = Number(localStorage.getItem('tablePage'));
-      const count: number | null = (await getWinners(tablePage)).count;
+      const { count } = await getWinners(tablePage);
       localStorage.setItem('tablePage', `${tablePage - 1}`);
       tablePage = Number(localStorage.getItem('tablePage'));
       if (tablePage === 1) {
@@ -533,7 +514,7 @@ export const listen = () => {
     if ((event.target as HTMLElement).classList.contains('winner-sort')) {
       event.target?.addEventListener('click', () => {
         localStorage.setItem('sort', 'wins');
-        let order = localStorage.getItem('order');
+        const order = localStorage.getItem('order');
         localStorage.setItem('order', order === 'ASC' ? 'DESC' : 'ASC');
         updateWinnerPage();
       });
@@ -542,7 +523,7 @@ export const listen = () => {
     if ((event.target as HTMLElement).classList.contains('id-sort')) {
       event.target?.addEventListener('click', () => {
         localStorage.setItem('sort', 'id');
-        let order = localStorage.getItem('order');
+        const order = localStorage.getItem('order');
         localStorage.setItem('order', order === 'ASC' ? 'DESC' : 'ASC');
         updateWinnerPage();
       });
@@ -551,7 +532,7 @@ export const listen = () => {
     if ((event.target as HTMLElement).classList.contains('time-sort')) {
       event.target?.addEventListener('click', () => {
         localStorage.setItem('sort', 'time');
-        let order = localStorage.getItem('order');
+        const order = localStorage.getItem('order');
         localStorage.setItem('order', order === 'ASC' ? 'DESC' : 'ASC');
         updateWinnerPage();
       });

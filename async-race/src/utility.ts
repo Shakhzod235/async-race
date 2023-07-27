@@ -52,12 +52,11 @@ export const returnCarToBase = async (id: number) => {
 };
 
 export const startRace = async (action: IStartDriving) => {
-  let page: number = Number(localStorage.getItem('page'));
+  const page: number = Number(localStorage.getItem('page'));
 
   (await getCars(page)).items.map(({ id }) => action(id));
 };
 
-export const generateRandomCars = (count: number = 100) =>
-  new Array(count)
-    .fill(1)
-    .map((_) => ({ name: getRandomName(), color: getRandomColor() }));
+export const generateRandomCars = (count: number = 100) => new Array(count)
+  .fill(1)
+  .map((_) => ({ name: getRandomName(), color: getRandomColor() }));

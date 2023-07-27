@@ -1,4 +1,6 @@
-import { renderHeader, renderGarage, renderWinner, renderFooter } from './ui';
+import {
+  renderHeader, renderGarage, renderWinner, renderFooter,
+} from './ui';
 
 export const renderUI = async () => {
   const html = `
