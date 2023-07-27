@@ -83,6 +83,23 @@ body {
   color: rgb(255, 0, 0);
   border-color: rgb(255, 0, 0);
 }
+.car-start-btn {
+  border: 2px dashed green;
+  color: green;
+}
+.car-start-btn:hover {
+  border: 2px dashed rgb(119, 67, 118);
+  color: rgb(119, 67, 118);
+}
+
+.car-stop-btn {
+  border: 2px dashed red;
+  color: red;
+}
+.car-stop-btn:hover {
+  border: 2px dashed rgb(159, 0, 0);
+  color: rgb(159, 0, 0);
+}
 .car-wrapper {
   position: relative;
   display: flex;

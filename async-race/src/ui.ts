@@ -1,6 +1,7 @@
-import { carImage } from "./car-image";
+import { renderCarImage } from "./carImage";
 import { carType, newCarType, winnerType } from "./types";
 import { createCar, createWinner, getCar, getCars, getWinner, getWinners, deleteCar, deleteWinner, startEngine, stopEngine, updateCar, updateWinner } from "./api";
+import { animateCar } from "./utility";
 
 const MIN_ITEMS_PER_PAGE: number = 7;
 let selectedId: number | null = null;
@@ -33,7 +34,7 @@ const renderCar = ({id, name, color}: carType) => `
             </div>
             <div class="car-full-road">
                 <div class="car" id="car-${id}">
-                    ${carImage(color)}
+                    ${renderCarImage(color)}
                 </div>
             </div>
             <div class="flag">
@@ -101,7 +102,7 @@ export const renderWinner = async () => {
                   return(`
                       <tr>
                           <td class="winner-table__td">${car.id}</td>
-                          <td class="winner-table__td">${carImage(car.color)}</td>
+                          <td class="winner-table__td">${renderCarImage(car.color)}</td>
                           <td class="winner-table__td">${car.name}</td>
                           <td class="winner-table__td">${winnersList[findIndex].wins}</td>
                           <td class="winner-table__td">${winnersList[findIndex].time/1000}s</td>
@@ -125,3 +126,13 @@ export const renderFooter = () => `
       </div>
     </footer>
 `;
+
+const startDriving = async (id: number) => {
+    const startBtn = document.querySelector(`#car-start-${id}`) as HTMLButtonElement;
+    startBtn.disabled = true;
+
+    const { velocity, distance } = await startEngine(id);
+    const time = Math.round(distance/velocity);
+
+    animateCar(id, time);
+} 
