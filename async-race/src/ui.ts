@@ -1,7 +1,7 @@
 import { renderCarImage } from "./carImage";
 import { carType, newCarType, winnerType } from "./types";
 import { createCar, createWinner, getCar, getCars, getWinner, getWinners, deleteCar, deleteWinner, startEngine, stopEngine, updateCar, updateWinner } from "./api";
-import { animateCar } from "./utility";
+import { animateCar, returnCarToBase } from "./utility";
 
 const MIN_ITEMS_PER_PAGE: number = 7;
 let selectedId: number | null = null;
@@ -136,3 +136,10 @@ const startDriving = async (id: number) => {
 
     animateCar(id, time);
 } 
+
+const returnCar = async (id: number) => {
+    const stopBtn = document.querySelector(`#car-stop-${id}`) as HTMLButtonElement;
+    stopBtn.disabled = true;
+
+    returnCarToBase(id);
+}

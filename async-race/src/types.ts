@@ -15,3 +15,7 @@ export type winnerType = {
   wins: number,
   time: number
 }
+
+export interface IStartDriving {
+  (id: number): void
+}

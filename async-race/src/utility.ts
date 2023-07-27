@@ -1,5 +1,5 @@
-import { drive } from "./api";
-import { carType } from "./types";
+import { drive, stopEngine, getCars } from "./api";
+import { IStartDriving } from "./types";
 
 const marks = ['BMW', 'Chevrolet', 'Toyota', 'Lada', 'Mercedes', 'Porsche'];
 const names = ['Gentra', 'Malibu', 'Matiz', 'X6', 'Vesta', '911', 'Camry'];
@@ -43,6 +43,19 @@ export const animateCar = async (id: number, time: number) => {
       car.style.animationPlayState = 'paused';
   }
   
+}
+
+export const returnCarToBase = async (id: number) => {
+  await stopEngine(id);
+  const car = document.querySelector(`#car-${id}`) as HTMLElement;
+  car.removeAttribute('style');
+  car.onanimationend = null;
+}
+
+export const startRace = async (action: IStartDriving) => {
+  let page: number = Number(localStorage.getItem('page'));
+
+  (await getCars(page)).items.map(({id}) => action(id));
 }
 
 export const generateRandomCars = (count: number = 100) => new Array(count).fill(1).map(_ => ({name: getRandomName(), color: getRandomColor()}));
