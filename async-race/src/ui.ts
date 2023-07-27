@@ -356,5 +356,39 @@ export const listen = () => {
             await updateGarage();
             (event.target as HTMLButtonElement).disabled = false;
         }
+        
+        if((event.target as HTMLButtonElement).classList.contains('next-table')) {
+            event.preventDefault();
+            const prevBtn = document.querySelector('.prev-table') as HTMLButtonElement;
+            const nextBtn = document.querySelector('.next-table') as HTMLButtonElement;
+            tablePage = Number(localStorage.getItem('tablePage'));
+            const count: number | null = (await getWinners(tablePage)).count || 0;
+            const winnersList: winnerType[] = (await getWinners(tablePage)).items;
+            localStorage.setItem('tablePage', `${tablePage + 1}`);
+
+            tablePage = Number(localStorage.getItem('tablePage'));
+            if(tablePage > 0) {
+                prevBtn.disabled = false;
+            }
+            if(count <= tablePage * 10 || winnersList.length < 10) {
+                nextBtn.disabled = true;
+            }
+            await updateWinnerPage();
+        }
+
+        if((event.target as HTMLButtonElement).classList.contains('prev-table')) {
+            event.preventDefault();
+            const prevBtn = document.querySelector('.prev-table') as HTMLButtonElement;
+            const nextBtn = document.querySelector('.next-table') as HTMLButtonElement;
+            nextBtn.disabled = false;
+            tablePage = Number(localStorage.getItem('tablePage'));
+            const count: number | null = (await getWinners(tablePage)).count;
+            localStorage.setItem('tablePage', `${tablePage - 1}`);
+            tablePage = Number(localStorage.getItem('tablePage'));
+            if(tablePage === 1) {
+                prevBtn.disabled = true;
+            }
+            await updateWinnerPage();
+        }
     });
 }
