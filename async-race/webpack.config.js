@@ -69,7 +69,8 @@ module.exports = ({ development }) => {
     main: './main.ts',
     types: './types.ts',
     ui: './ui.ts',
-    utility: './utility.ts'
+    utility: './utility.ts',
+    storage: './storage.ts'
   };
   const pages = getPages(srcPath, 1);
   return {
